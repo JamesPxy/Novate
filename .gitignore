@@ -38,3 +38,26 @@ captures/
 
 # Keystore files
 *.jks
+*.bat
+.idea/gradle.xml
+.idea/libraries/com_android_support_appcompat_v7_23_1_0.xml
+.idea/libraries/com_android_support_support_v4_23_1_0.xml
+.idea/libraries/com_google_code_gson_gson_2_7_jar.xml
+.idea/libraries/com_android_support_support_annotations_22_0_0_jar.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/libraries/com_squareup_okio_okio_1_13_0_jar.xml
+.idea/libraries/com_android_support_support_annotations_23_1_0_jar.xml
+.idea/libraries/com_squareup_okhttp3_logging_interceptor_3_8_0_jar.xml
+.idea/libraries/com_squareup_retrofit2_adapter_rxjava_2_3_0_jar.xml
+.idea/libraries/com_squareup_okhttp3_okhttp_3_8_0_jar.xml
+.idea/libraries/com_squareup_retrofit2_retrofit_2_3_0_jar.xml
+.idea/libraries/com_squareup_retrofit2_converter_gson_2_3_0_jar.xml
+.idea/libraries/io_reactivex_rxandroid_1_2_1.xml
+.idea/runConfigurations.xml
+gradle/wrapper/gradle-wrapper.jar
+gradlew
+.idea/libraries/org_hamcrest_hamcrest_core_1_3_jar.xml
+.idea/libraries/junit_junit_4_12_jar.xml
+.idea/libraries/io_reactivex_rxjava_1_3_0_jar.xml
+.idea/misc.xml
