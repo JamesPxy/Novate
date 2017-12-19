@@ -21,10 +21,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.tamic.novate.config.ConfigLoader;
 import com.tamic.novate.exception.FormatException;
 import com.tamic.novate.exception.NovateException;
 import com.tamic.novate.exception.ServerException;
+import com.tamic.novate.config.ConfigLoader;
 import com.tamic.novate.util.LogWraper;
 import com.tamic.novate.util.ReflectionUtil;
 
@@ -91,7 +91,7 @@ class NovateSubscriber<T> extends BaseSubscriber<ResponseBody> {
             String jsStr = new String(bytes);
             LogWraper.d("Novate", "ResponseBody:" + jsStr.trim());
       /*      if (!ConfigLoader.isFormat(context)) {
-                callBack.onsuccess(0, "", null, jsStr);
+                callBack.onSuccess(0, "", null, jsStr);
                 return;
             }*/
             if (callBack != null) {
@@ -163,7 +163,7 @@ class NovateSubscriber<T> extends BaseSubscriber<ResponseBody> {
 
                     if (dataResponse == null && baseResponse.isOk(context)) {
                         LogWraper.d(TAG, "Response data 数据获取失败！");
-                        callBack.onsuccess(code, msg, null, jsStr);
+                        callBack.onSuccess(code, msg, null, jsStr);
                         return;
                     }
 
@@ -174,8 +174,7 @@ class NovateSubscriber<T> extends BaseSubscriber<ResponseBody> {
 
                     baseResponse.setData(dataResponse);
                     if (baseResponse.isOk(context)) {
-                        callBack.onsuccess(code, msg, dataResponse, jsStr);
-                        callBack.onSuccee(baseResponse);
+                        callBack.onSuccess(code, msg, dataResponse, jsStr);
                     } else {
                         msg = baseResponse.getMsg() != null ? baseResponse.getMsg() : baseResponse.getError() != null ? baseResponse.getError() : baseResponse.getMessage() != null ? baseResponse.getMessage() : "api未知异常";
                         ServerException serverException = new ServerException(baseResponse.getCode(), msg);

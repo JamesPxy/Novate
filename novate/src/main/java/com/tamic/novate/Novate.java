@@ -26,16 +26,16 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.JsonParseException;
+import com.tamic.novate.exception.NovateException;
+import com.tamic.novate.cache.CookieCacheImpl;
 import com.tamic.novate.callback.ResponseCallback;
 import com.tamic.novate.config.ConfigLoader;
 import com.tamic.novate.cookie.AddCookiesInterceptor;
 import com.tamic.novate.cookie.NovateCookieManager;
-import com.tamic.novate.cache.CookieCacheImpl;
 import com.tamic.novate.cookie.ReceivedCookiesInterceptor;
+import com.tamic.novate.cookie.SharedPrefsCookiePersistor;
 import com.tamic.novate.download.DownLoadCallBack;
 import com.tamic.novate.download.DownSubscriber;
-import com.tamic.novate.cookie.SharedPrefsCookiePersistor;
-import com.tamic.novate.exception.NovateException;
 import com.tamic.novate.request.NovateRequest;
 import com.tamic.novate.request.NovateRequestBody;
 import com.tamic.novate.request.RequestInterceptor;
@@ -2290,10 +2290,7 @@ public final class Novate {
 
         void onError(Throwable e);
 
-        @Deprecated
-        void onSuccee(NovateResponse<T> response);
-
-        void onsuccess(int code, String msg, T response, String originalResponse);
+        void onSuccess(int code, String msg, T response, String originalResponse);
 
     }
 }

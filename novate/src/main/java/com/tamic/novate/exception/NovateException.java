@@ -19,15 +19,14 @@ package com.tamic.novate.exception;
 
 import android.net.ParseException;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.JsonParseException;
-
-import org.apache.http.conn.ConnectTimeoutException;
-import org.json.JSONException;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.config.ConfigLoader;
 import com.tamic.novate.util.LogWraper;
+
+import org.apache.http.conn.ConnectTimeoutException;
+import org.json.JSONException;
 
 import java.net.ConnectException;
 import java.net.UnknownHostException;
@@ -107,7 +106,7 @@ public class NovateException {
                         ex.setMessage(e.getLocalizedMessage());
                         break;
                     }
-                    if (TextUtils.isEmpty(ex.getMessage()) ) {
+                    if (TextUtils.isEmpty(ex.getMessage())) {
                         ex.setMessage("未知错误");
                     }
                     break;
@@ -149,7 +148,7 @@ public class NovateException {
             ex.setMessage("无有效的SSL证书");
             return ex;
 
-        } else if (e instanceof ConnectTimeoutException){
+        } else if (e instanceof ConnectTimeoutException) {
             ex = new Throwable(e, ERROR.TIMEOUT_ERROR);
             ex.setMessage("连接超时");
             return ex;
@@ -170,7 +169,7 @@ public class NovateException {
             ex = new Throwable(e, resultException.code);
             ex.setMessage(resultException.message);
             return ex;
-        } else if (e instanceof UnknownHostException){
+        } else if (e instanceof UnknownHostException) {
             LogWraper.e("Novate", e.getMessage());
             ex = new Throwable(e, NOT_FOUND);
             ex.setMessage("服务器地址未找到,请检查网络或Url");

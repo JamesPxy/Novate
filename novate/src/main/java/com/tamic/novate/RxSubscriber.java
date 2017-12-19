@@ -19,8 +19,8 @@ package com.tamic.novate;
 
 import android.content.Context;
 
-import com.tamic.novate.callback.ResponseCallback;
 import com.tamic.novate.exception.NovateException;
+import com.tamic.novate.callback.ResponseCallback;
 
 import okhttp3.ResponseBody;
 

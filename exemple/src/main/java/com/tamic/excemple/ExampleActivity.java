@@ -1,6 +1,6 @@
 package com.tamic.excemple;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,22 +14,17 @@ import com.google.gson.reflect.TypeToken;
 import com.tamic.excemple.model.MovieModel;
 import com.tamic.excemple.model.ResultModel;
 import com.tamic.excemple.model.SouguBean;
-import com.tamic.novate.ContentType;
-import com.tamic.novate.NovateHttpsFactroy;
-import com.tamic.novate.NovateResponse;
 import com.tamic.novate.BaseSubscriber;
 import com.tamic.novate.Novate;
+import com.tamic.novate.NovateHttpsFactroy;
+import com.tamic.novate.NovateResponse;
 import com.tamic.novate.RxApiManager;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxFileCallBack;
-import com.tamic.novate.callback.RxGenericsCallback;
 import com.tamic.novate.callback.RxStringCallback;
-import com.tamic.novate.download.UpLoadCallback;
 import com.tamic.novate.request.NovateRequest;
-import com.tamic.novate.request.NovateRequestBody;
 import com.tamic.novate.util.FileUtil;
 import com.tamic.novate.util.LogWraper;
-import com.tamic.novate.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,19 +33,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
-import retrofit2.Converter;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Subscription;
 
 /**
@@ -67,18 +54,19 @@ public class ExampleActivity extends BaseActivity {
     private Map<String, Object> parameters = new HashMap<String, Object>();
     private Map<String, String> headers = new HashMap<>();
 
-    private Button btn, btn_test, btn_get, btn_post, btn_download,
+    private Button btn_simple, btn_test, btn_get, btn_post, btn_download,
             btn_download_Min, btn_upload, btn_uploadfile, btn_myApi, btn_more;
 
     String uploadPath = "";
 
+    private Context  mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exemple);
         // UI referen
-        btn = (Button) findViewById(R.id.bt_simple);
+        btn_simple = (Button) findViewById(R.id.bt_simple);
         btn_test = (Button) findViewById(R.id.bt_test);
         btn_get = (Button) findViewById(R.id.bt_get);
         btn_post = (Button) findViewById(R.id.bt_post);
@@ -89,6 +77,7 @@ public class ExampleActivity extends BaseActivity {
         btn_myApi = (Button) findViewById(R.id.bt_my_api);
         btn_more = (Button) findViewById(R.id.bt_more);
 
+        mContext=this;
 
         parameters.put("ip", "21.22.11.33");
         headers.put("Accept", "application/json");
@@ -102,20 +91,21 @@ public class ExampleActivity extends BaseActivity {
                 .addSSLSocketFactory(
                         NovateHttpsFactroy.creatSSLSocketFactory(getApplicationContext(), "file.cer"))
                 .addLog(true)
+                .addCache(true)
                 .build();
 
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resquestOkhttp();
-               // performTest();
+//                performTest();
 
             }
 
 
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn_simple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -226,7 +216,7 @@ public class ExampleActivity extends BaseActivity {
                 .url("https://apis.baidu.com/apistore/weatherservice/cityname?cityname=上海")
                 .build();
 
-        novate.execute(request, new BaseSubscriber<ResponseBody>(ExampleActivity.this) {
+        novate.execute(request, new BaseSubscriber<ResponseBody>(mContext) {
             @Override
             public void onError(Throwable e) {
                 Log.e("OkHttp", e.getMessage());
@@ -311,9 +301,10 @@ public class ExampleActivity extends BaseActivity {
                 .addParameters(parameters)
                 .baseUrl("http://api.douban.com/")
                 .addLog(true)
+                .addCache(true)
                 .build();
 
-        novate.get("v2/movie/top250", parameters, new BaseSubscriber<ResponseBody>() {
+        novate.get("v2/movie/top250", parameters, new BaseSubscriber<ResponseBody>(mContext) {
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(ExampleActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -379,13 +370,7 @@ public class ExampleActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccee(NovateResponse<ResultModel> response) {
-
-            }
-
-
-            @Override
-            public void onsuccess(int code, String msg, ResultModel response, String originalResponse) {
+            public void onSuccess(int code, String msg, ResultModel response, String originalResponse) {
                 Toast.makeText(ExampleActivity.this, response != null ? response.toString(): "无数据", Toast.LENGTH_SHORT).show();
             }
 
@@ -465,6 +450,7 @@ public class ExampleActivity extends BaseActivity {
                 .addParameters(parameters)
                 .baseUrl("http://lbs.sougu.net.cn/")
                 .addLog(true)
+                .addCache(true)
                 .build();
 
 

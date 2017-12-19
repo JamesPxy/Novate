@@ -18,10 +18,10 @@
 package com.tamic.novate;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.tamic.novate.exception.NovateException;
 import com.tamic.novate.util.LogWraper;
+import com.tamic.novate.util.NetworkUtil;
 
 import rx.Subscriber;
 
@@ -42,17 +42,17 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
 
     @Override
     final public void onError(java.lang.Throwable e) {
-        if (e != null && e.getMessage() != null){
+        if (e != null && e.getMessage() != null) {
             LogWraper.v("Novate", e.getMessage());
 
         } else {
             LogWraper.v("Novate", "Throwable  || Message == Null");
         }
 
-        if(e instanceof Throwable){
+        if (e instanceof Throwable) {
             LogWraper.e("Novate", "--> e instanceof Throwable");
             LogWraper.e("Novate", "--> " + e.getCause().toString());
-            onError((Throwable)e);
+            onError((Throwable) e);
         } else {
             LogWraper.e("Novate", "e !instanceof Throwable");
             String detail = "";
@@ -71,6 +71,13 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         LogWraper.v("Novate", "-->http is start");
         // todo some common as show loadding  and check netWork is NetworkAvailable
         // if  NetworkAvailable no !   must to call onCompleted
+        if (null != context && NetworkUtil.isNetworkAvailable(context)) {
+
+        } else {
+            // TODO: 2017/12/19  读取缓存
+            onCompleted();
+            return;
+        }
     }
 
     @Override
@@ -78,6 +85,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         LogWraper.v("Novate", "-->http is Complete");
         // todo some common as  dismiss loadding
     }
+
     public abstract void onError(Throwable e);
 
 }

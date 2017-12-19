@@ -1,7 +1,5 @@
 package com.tamic.novate;
 
-import static okhttp3.MultipartBody.FORM;
-
 /**
  * Created by Tamic on 2017-06-23.
  */
